@@ -1,0 +1,9 @@
+# Autosave files
+**/*~
+
+# git
+.git/
+
+# build
+**/obj
+**/bin
