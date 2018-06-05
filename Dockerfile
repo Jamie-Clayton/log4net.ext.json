@@ -4,8 +4,8 @@ COPY . /home/code
 
 WORKDIR /home/code
 
-RUN ./release.sh
+#RUN ./release.sh
 
-
+#CMD ./test.sh
 
 
