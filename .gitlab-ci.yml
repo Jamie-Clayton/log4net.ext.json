@@ -26,7 +26,7 @@ build-release:
 build-prerelease:
   stage: build
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix=ci$CI_PIPELINE_ID .
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg "version_suffix=ci$CI_PIPELINE_ID" .
     - docker push $CONTAINER_TEST_IMAGE
   except:
     - master
@@ -39,7 +39,7 @@ unittest:
 publish:
   stage: release
   script:
-    - docker run $CONTAINER_TEST_IMAGE ./publish.sh
+    - docker run $CONTAINER_TEST_IMAGE ./publish.sh "$NUGET_GL_L4N"
 #    - docker pull $CONTAINER_TEST_IMAGE
 #    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
 #    - docker push $CONTAINER_RELEASE_IMAGE
