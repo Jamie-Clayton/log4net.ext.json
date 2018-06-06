@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-msbuild /r /t:pack /p:Configuration=Release "/p:VersionSuffix=$1"
+msbuild /r /t:build,pack /p:Configuration=Release "/p:VersionSuffix=$1"

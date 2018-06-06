@@ -4,9 +4,9 @@ COPY . /home/code
 
 WORKDIR /home/code
 
-ARG version-suffix
+ARG version_suffix
 
-RUN ./release.sh $version-suffix
+RUN ./release.sh $version_suffix
 
 #CMD ./test.sh
 
