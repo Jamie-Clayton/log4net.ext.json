@@ -6,31 +6,41 @@ services:
 stages:
 - build
 - test
-- push
+- release
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json:$CI_BUILD_REF_NAME
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json/$CI_BUILD_REF_SLUG:$CI_COMMIT_SHA
   CONTAINER_RELEASE_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json:latest
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
-build:
+build-release:
   stage: build
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix= .
     - docker push $CONTAINER_TEST_IMAGE
-
-test:
-  stage: test
-  script:
-    - docker run $CONTAINER_TEST_IMAGE
-
-release:
-  stage: push
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
+
+build-prerelease:
+  stage: build
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix=$CI_COMMIT_SHA .
+    - docker push $CONTAINER_TEST_IMAGE
+  except:
+    - master
+
+unittest:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE ./unittest.sh
+
+publish:
+  stage: release
+  script:
+    - docker run $CONTAINER_TEST_IMAGE ./publish.sh
+#    - docker pull $CONTAINER_TEST_IMAGE
+#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#    - docker push $CONTAINER_RELEASE_IMAGE
+
