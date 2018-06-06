@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-msbuild /r /t:Test /p:Configuration=Release log4net.Ext.Json.Xunit
+nuget push '**/*.nupkg' $NUGET_GL_L4N -Source https://api.nuget.org/v3/index.json

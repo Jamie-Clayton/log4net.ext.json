@@ -26,7 +26,7 @@ build-release:
 build-prerelease:
   stage: build
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix=$CI_COMMIT_SHA .
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix=ci.$CI_PIPELINE_ID .
     - docker push $CONTAINER_TEST_IMAGE
   except:
     - master
