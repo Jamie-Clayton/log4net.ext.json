@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>log4net</RootNamespace>
     <AssemblyName>log4net.Ext.Json.Net</AssemblyName>
-    <TargetFrameworks>net452;net40;net35;net20;netstandard2.0;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>net452;net40;net35;net20;netstandard1.3</TargetFrameworks>
     <PackageId>log4net.Ext.Json.Net</PackageId>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Robert Cutajar</Authors>
@@ -15,7 +15,7 @@
     <Summary>Use Newtonsoft.Json (Json.NET) as a serializer</Summary>
     <Description>Use Newtonsoft.Json (Json.NET) as a serializer.</Description>
     <PackageTags>logging json</PackageTags>
-    <Version>2.0.8.2</Version>
+    <VersionPrefix>2.0.8.2</VersionPrefix>
     <PackageIconUrl>https://github.com/BrightOpen/log4net.Ext.Json/raw/master/assets/icon.gif</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/BrightOpen/log4net.Ext.Json/blob/master/log4net.Ext.Json/log4net.Ext.Json.LICENSE.txt</PackageLicenseUrl>
   </PropertyGroup>

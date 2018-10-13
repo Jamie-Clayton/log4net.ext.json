@@ -1,0 +1,46 @@
+image: docker:git
+
+services:
+  - docker:dind
+
+stages:
+- build
+- test
+- release
+
+variables:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json/$CI_BUILD_REF_SLUG:$CI_COMMIT_SHA
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build-release:
+  stage: build
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix= .
+    - docker push $CONTAINER_TEST_IMAGE
+  only:
+    - master
+
+build-prerelease:
+  stage: build
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg "version_suffix=ci$CI_PIPELINE_ID" .
+    - docker push $CONTAINER_TEST_IMAGE
+  except:
+    - master
+
+unittest:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE ./unittest.sh
+
+publish:
+  stage: release
+  script:
+    - docker run $CONTAINER_TEST_IMAGE ./publish.sh "$NUGET_GL_L4N"
+#    - docker pull $CONTAINER_TEST_IMAGE
+#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#    - docker push $CONTAINER_RELEASE_IMAGE
+
