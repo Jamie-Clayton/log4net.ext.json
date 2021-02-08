@@ -1,3 +1,11 @@
+# log4net.Ext.Json
+
+Enable JSON logging in log4net and more.
+
+This project previous owner (2018-2021) is Robert (Jo) Cutajar, BrightOpen - https://gitlab.com/BrightOpen (see https://gitlab.com/BrightOpen/log4net.Ext.Json/-/issues/9)
+
+# Content
+
 - [Enable JSON logging in log4net](#enable-json-logging-in-log4net)
     - [Features](#features)
 - [First steps](#first-steps)
