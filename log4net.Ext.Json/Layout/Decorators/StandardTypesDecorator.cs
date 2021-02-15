@@ -305,11 +305,11 @@ namespace log4net.Layout.Decorators
         /// <returns>true if it's all done</returns>
         protected virtual bool StandardContext(object obj, ref object result)
         {
-            var threadCtx = obj as log4net.Util.ThreadContextStack;
+            var threadCtx = obj as log4net.Core.IFixingRequired;
 
             if (threadCtx != null)
             {
-                result = threadCtx.ToString();
+                result = threadCtx.GetFixedObject();
                 return true;
             }
 
