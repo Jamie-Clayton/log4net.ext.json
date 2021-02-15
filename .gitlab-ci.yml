@@ -9,8 +9,8 @@ stages:
 - release
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json/$CI_BUILD_REF_SLUG:$CI_COMMIT_SHA
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/brightopen/log4net.ext.json:latest
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/gdziadkiewicz/log4net.ext.json/$CI_BUILD_REF_SLUG:$CI_COMMIT_SHA
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/gdziadkiewicz/log4net.ext.json:latest
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
@@ -43,4 +43,4 @@ publish:
 #    - docker pull $CONTAINER_TEST_IMAGE
 #    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
 #    - docker push $CONTAINER_RELEASE_IMAGE
-
+  when: manual

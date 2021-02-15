@@ -1,3 +1,9 @@
+# log4net.Ext.Json
+
+Enable JSON logging in log4net and more.
+
+# Content
+
 - [Enable JSON logging in log4net](#enable-json-logging-in-log4net)
     - [Features](#features)
 - [First steps](#first-steps)
@@ -13,6 +19,7 @@
 - [Stamps](#stamps)
 - [Keep alive!](#keep-alive)
 - [Fare well](#fare-well)
+- [Credits](#credits)
 
 # Enable JSON logging in log4net
 
@@ -267,3 +274,7 @@ Note the "YourAppender" part. That's the name of the appender you want to pulse.
 I hope you'll make the world a better place with this tool at hand. Nothing less :D
 
 Good luck and happy logging.
+
+# Credits
+
+The log4net JSON extension has originally been created (2014-2021) by Robert (Jo) Cutajar, [BrightOpen](https://gitlab.com/BrightOpen)
