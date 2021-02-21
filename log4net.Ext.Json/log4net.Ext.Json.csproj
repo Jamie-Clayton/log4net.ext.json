@@ -39,16 +39,4 @@
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="log4net.ext.json.LICENSE.txt" />
-    <None Remove="log4net.ext.json.README.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="log4net.Ext.Json.LICENSE.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="log4net.Ext.Json.README.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>
