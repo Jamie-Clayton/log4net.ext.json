@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -16,8 +16,11 @@
     <Description>Use Newtonsoft.Json (Json.NET) as a serializer.</Description>
     <PackageTags>logging json</PackageTags>
     <VersionPrefix>2.0.9.1</VersionPrefix>
-    <PackageIconUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.gif</PackageIconUrl>
+    <PackageIconUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,5 +37,8 @@
   <ItemGroup>
     <Compile Remove="Util\Newtonsoft\SerializerConverter.cs" />
     <Compile Remove="Util\JsonDotNet\SerializerConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

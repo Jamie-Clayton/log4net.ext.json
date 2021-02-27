@@ -1,46 +1,41 @@
-image: docker:git
-
-services:
-  - docker:dind
+image: mono:6
 
 stages:
 - build
 - test
 - release
 
-variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/gdziadkiewicz/log4net.ext.json/$CI_BUILD_REF_SLUG:$CI_COMMIT_SHA
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/gdziadkiewicz/log4net.ext.json:latest
-
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-
 build-release:
   stage: build
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg version_suffix= .
-    - docker push $CONTAINER_TEST_IMAGE
+    - ./release.sh
+  artifacts:
+    paths:
+      - '**/*.nupkg'
+      - '**/*.snupkg'
   only:
     - master
 
 build-prerelease:
   stage: build
   script:
-    - docker build --pull -t $CONTAINER_TEST_IMAGE --build-arg "version_suffix=ci$CI_PIPELINE_ID" .
-    - docker push $CONTAINER_TEST_IMAGE
+    - ./release.sh "develop+$CI_PIPELINE_ID"
+  artifacts:
+    paths:
+      - '**/*.nupkg'
+      - '**/*.snupkg'
   except:
     - master
 
 unittest:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE ./unittest.sh
+    - ./unittest.sh
 
 publish:
   stage: release
   script:
-    - docker run $CONTAINER_TEST_IMAGE ./publish.sh "$NUGET_GL_L4N"
-#    - docker pull $CONTAINER_TEST_IMAGE
-#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-#    - docker push $CONTAINER_RELEASE_IMAGE
-  when: manual
+    - ./publish.sh "$NUGET_GL_L4N"
+  only:
+    - master
+    - develop
