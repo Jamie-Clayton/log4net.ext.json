@@ -16,8 +16,11 @@
     <Description>Enable JSON logging in log4net.</Description>
     <PackageTags>logging json</PackageTags>
     <VersionPrefix>2.0.9.1</VersionPrefix>
-    <PackageIconUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.gif</PackageIconUrl>
+    <PackageIconUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net35' OR '$(TargetFramework)'=='net20'">
     <DefineConstants>$(DefineConstants);Net20Reflection</DefineConstants>
@@ -38,5 +41,8 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
