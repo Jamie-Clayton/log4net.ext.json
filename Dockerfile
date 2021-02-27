@@ -1,13 +1,5 @@
-FROM mono:5
+FROM mono:6
 
 COPY . /home/code
 
 WORKDIR /home/code
-
-ARG version_suffix
-
-RUN ./release.sh $version_suffix
-
-#CMD ./test.sh
-
-
