@@ -19,7 +19,7 @@ build-release:
 build-prerelease:
   stage: build
   script:
-    - ./release.sh "develop+$CI_PIPELINE_ID"
+    - ./release.sh "develop$CI_PIPELINE_ID"
   artifacts:
     paths:
       - '**/*.nupkg'
