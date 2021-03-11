@@ -2,6 +2,11 @@
 
 Enable JSON logging in log4net and more.
 
+| Packages |
+| -------- |
+| log4net.Ext.Json     [![NuGet Status](http://img.shields.io/nuget/v/log4net.Ext.Json.svg?style=flat)](https://www.nuget.org/packages/log4net.Ext.Json) |
+| log4net.Ext.Json.Net [![NuGet Status](http://img.shields.io/nuget/v/log4net.Ext.Json.Net.svg?style=flat)](https://www.nuget.org/packages/log4net.Ext.Json.Net) |
+
 # Content
 
 - [Enable JSON logging in log4net](#enable-json-logging-in-log4net)
