@@ -144,11 +144,11 @@ namespace log4net.Layout
             RawCallLayout.AddCalls(ref calls, e => env.GetAppPath() , "apppath" /*custom*/);
             RawCallLayout.AddCalls(ref calls, e => env.GetAppName(), "appname" /*custom*/);
 
-            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation.ClassName, "type", "class", "C");
-            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation.FileName, "file", "F");
-            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation.FullInfo, "location", "l");
-            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation.LineNumber, "line", "L");
-            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation.MethodName, "method", "M");
+            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation?.ClassName, "type", "class", "C");
+            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation?.FileName, "file", "F");
+            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation?.FullInfo, "location", "l");
+            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation?.LineNumber, "line", "L");
+            RawCallLayout.AddCalls(ref calls, e => e.LocationInformation?.MethodName, "method", "M");
             RawCallLayout.AddCalls(ref calls, e => (e.TimeStamp - LoggingEvent.StartTime).TotalMilliseconds, "timestamp", "r");
             RawCallLayout.AddCalls(ref calls, e => Environment.NewLine, "newline", "n");
             RawCallLayout.AddCalls(ref calls, e => env.GetProcessId(), "processid"/*custom*/, "pid"/*custom*/);
