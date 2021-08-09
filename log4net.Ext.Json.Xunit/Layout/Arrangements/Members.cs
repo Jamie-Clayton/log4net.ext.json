@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +26,7 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                             <member value='OurCompany.ApplicationName' /> <!-- ref to property -->
                             <member value='A|L-%p-%c' /> <!-- (|) arbitrary pattern layout format -->
                             <member value='B%date:yyyy' /> <!-- (%:) one pattern layout conversion pattern with optional option -->
-                            <member value='Host=ProcessId\;HostName' /> <!-- (=) nested structure, escape ; -->
+                            <member value='Host=ProcessId\;HostName\;UserName' /> <!-- (=) nested structure, escape ; -->
                             <member value='App:appname' /> <!-- named member -->
                             <member value='empty1' /> <!-- empty member -->
                             <member value='empty2:EmPty2' /> <!-- empty named member -->
@@ -55,6 +55,7 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
             StringAssert.Contains(@",""Host"":{", le, "log line");
             StringAssert.Contains(@"""ProcessId"":" + procid, le, "log line");
             StringAssert.Contains(@"""HostName"":""" + Environment.MachineName + @"""", le, "log line");
+            StringAssert.Contains(@"""UserName"":""" + Environment.UserDomainName + @"\\" + Environment.UserName + @"""", le, "log line");
             StringAssert.Contains(@"""A"":""L-INFO-log4net.Ext.Json.Xunit.Layout.Arrangements.Members""", le, "log line");
             StringAssert.Contains(@"""B"":""" + DateTime.Now.Year + @"""", le, "log line");
             StringAssert.Contains(@"""App"":""", le, "log line");
