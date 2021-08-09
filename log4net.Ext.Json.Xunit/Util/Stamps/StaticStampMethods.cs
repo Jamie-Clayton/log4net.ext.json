@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -96,7 +96,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             else if (from > to)
                 Assert.True(time< 0, "time must be < 0 if from > to");
             else if (from == log4net.Util.Stamps.AgeReference.Now)
-                Assert.True(time> 0, "time must be > 0 if from == to == Now");
+                Assert.True(time>= 0, "time must be >= 0 if from == to == Now");
             else 
                 Assert.True(0== time, "time must be == 0 if from == to");
         }

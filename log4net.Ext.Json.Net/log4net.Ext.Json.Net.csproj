@@ -15,7 +15,7 @@
     <Summary>Use Newtonsoft.Json (Json.NET) as a serializer</Summary>
     <Description>Use Newtonsoft.Json (Json.NET) as a serializer.</Description>
     <PackageTags>logging json</PackageTags>
-    <VersionPrefix>2.0.9.1</VersionPrefix>
+    <VersionPrefix>2.0.10.1</VersionPrefix>
     <PackageIconUrl>https://gitlab.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <IncludeSymbols>true</IncludeSymbols>
