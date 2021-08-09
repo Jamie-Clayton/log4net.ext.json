@@ -10,13 +10,13 @@
     <Authors>Robert Cutajar, Grzegorz Dziadkiewicz</Authors>
     <Owners>Grzegorz Dziadkiewicz</Owners>
     <Copyright>Copyright (c) 2021 Robert Cutajar, Grzegorz Dziadkiewicz</Copyright>
-    <PackageProjectUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json</PackageProjectUrl>
+    <PackageProjectUrl>https://gitlab.com/gdziadkiewicz/log4net.Ext.Json</PackageProjectUrl>
     <Title>log4net.Ext.Json</Title>
     <Summary>Enable JSON logging in log4net</Summary>
     <Description>Enable JSON logging in log4net.</Description>
     <PackageTags>logging json</PackageTags>
-    <VersionPrefix>2.0.9.1</VersionPrefix>
-    <PackageIconUrl>https://github.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.png</PackageIconUrl>
+    <VersionPrefix>2.0.10.1</VersionPrefix>
+    <PackageIconUrl>https://gitlab.com/gdziadkiewicz/log4net.Ext.Json/raw/master/assets/icon.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

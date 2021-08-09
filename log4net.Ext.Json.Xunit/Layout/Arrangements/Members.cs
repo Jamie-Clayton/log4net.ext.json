@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net.Ext.Json.Xunit.General;
 using Xunit;
+using Xunit.Abstractions;
 using Assert = NUnit.Framework.Assert;
 using StringAssert = NUnit.Framework.StringAssert;
 using Is = NUnit.Framework.Is;
@@ -13,6 +14,8 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
     public class Members : RepoTest
     {
+        private readonly ITestOutputHelper output;
+
         protected override string GetConfig()
         {
             return @"<log4net>
@@ -26,13 +29,18 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                             <member value='OurCompany.ApplicationName' /> <!-- ref to property -->
                             <member value='A|L-%p-%c' /> <!-- (|) arbitrary pattern layout format -->
                             <member value='B%date:yyyy' /> <!-- (%:) one pattern layout conversion pattern with optional option -->
-                            <member value='Host=ProcessId\;HostName' /> <!-- (=) nested structure, escape ; -->
+                            <member value='Host=ProcessId\;HostName\;UserName' /> <!-- (=) nested structure, escape ; -->
                             <member value='App:appname' /> <!-- named member -->
                             <member value='empty1' /> <!-- empty member -->
                             <member value='empty2:EmPty2' /> <!-- empty named member -->
                           </layout>
                         </appender>
                       </log4net>";
+        }
+
+        public Members(ITestOutputHelper output)
+        {
+            this.output = output;
         }
 
         protected override void RunTestLog(log4net.ILog log)
@@ -50,11 +58,17 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
             Assert.IsNotNull(le, "loggingevent");
 
             var procid = Process.GetCurrentProcess().Id;
+            output.WriteLine(Environment.OSVersion.VersionString);
+            var userName =
+                Environment.OSVersion.VersionString.StartsWith("Microsoft Windows")?
+                  Environment.UserDomainName + @"\\" + Environment.UserName
+                : Environment.UserName;
 
             StringAssert.StartsWith(@"{""OurCompany.ApplicationName"":""fubar""", le, "log line");
             StringAssert.Contains(@",""Host"":{", le, "log line");
             StringAssert.Contains(@"""ProcessId"":" + procid, le, "log line");
             StringAssert.Contains(@"""HostName"":""" + Environment.MachineName + @"""", le, "log line");
+            StringAssert.Contains(@"""UserName"":""" + userName + @"""", le, "log line");
             StringAssert.Contains(@"""A"":""L-INFO-log4net.Ext.Json.Xunit.Layout.Arrangements.Members""", le, "log line");
             StringAssert.Contains(@"""B"":""" + DateTime.Now.Year + @"""", le, "log line");
             StringAssert.Contains(@"""App"":""", le, "log line");
