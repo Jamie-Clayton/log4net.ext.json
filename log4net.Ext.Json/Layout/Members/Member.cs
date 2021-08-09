@@ -280,7 +280,10 @@ namespace log4net.Layout.Members
         {
             var name = Option as string ?? Name;
 
-            obj = loggingEvent.LookupProperty(name);
+            //Resolve property value without resorting to loggingEvent.LookupProperty which can call
+            //WindowsIdentity.GetCurrent() which is expensive
+            //see https://issues.apache.org/jira/browse/LOG4NET-429 for more details.
+            obj = (loggingEvent.Properties[name] ?? LogicalThreadContext.Properties[name]) ?? (ThreadContext.Properties[name] ?? GlobalContext.Properties[name]);
 
             return obj != null;
         }
