@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>log4net</RootNamespace>
     <AssemblyName>log4net.Ext.Json</AssemblyName>
-    <TargetFrameworks>net452;net40;net35;net20;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>net35;netstandard1.3;netstandard20</TargetFrameworks>
     <PackageId>log4net.Ext.Json</PackageId>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Robert Cutajar, Grzegorz Dziadkiewicz</Authors>
@@ -22,19 +22,16 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net35' OR '$(TargetFramework)'=='net20'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
     <DefineConstants>$(DefineConstants);Net20Reflection</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3' OR '$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>$(DefineConstants);LimitedEnvAccess</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-    <DefineConstants>$(DefineConstants);NoAppDomain</DefineConstants>
+    <DefineConstants>$(DefineConstants);LimitedEnvAccess;NoAppDomain</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.10" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net35' OR '$(TargetFramework)'=='net20'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net35'">
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>

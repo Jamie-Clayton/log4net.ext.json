@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using Is=NUnit.Framework.Is;
+using NUnit.Framework;
 using System.Xml;
 using log4net.Config;
 
@@ -29,7 +27,7 @@ namespace log4net.Ext.Json.Xunit.General
             repo = rep;
         }
 
-        [Fact]
+        [Test]
         public virtual void TestLog()
         {
             var log = GetLog();

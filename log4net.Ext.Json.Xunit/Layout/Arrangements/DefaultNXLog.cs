@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
+using NUnit.Framework;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -38,11 +36,13 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
             var le = events.Single();
 
             Assert.IsNotNull(le, "loggingevent");
-
-            StringAssert.Contains(@"""EventTime"":", le, "log line has EventTime");
-            StringAssert.Contains(@"""Message"":", le, "log line has Message");
-            StringAssert.Contains(@"""Logger"":", le, "log line has Logger");
-            StringAssert.Contains(@"""Severity"":", le, "log line has Severity");
+            Assert.Multiple(() =>
+            {
+                StringAssert.Contains(@"""EventTime"":", le, "log line has EventTime");
+                StringAssert.Contains(@"""Message"":", le, "log line has Message");
+                StringAssert.Contains(@"""Logger"":", le, "log line has Logger");
+                StringAssert.Contains(@"""Severity"":", le, "log line has Severity");
+            });
         }
     }
 }

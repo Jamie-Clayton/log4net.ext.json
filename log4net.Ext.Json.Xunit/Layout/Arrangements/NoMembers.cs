@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
+using NUnit.Framework;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -31,11 +31,13 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 
 			var events = GetEventStrings(log.Logger);
 
-			Assert.Collection(events, (le) =>
+			Assert.Multiple(()=>
 			{
-				Assert.NotNull(le);
-
-				Assert.Equal(@"""Hola!""" + Environment.NewLine, le /*, "log line has no members - just plain message"*/);
+                foreach (var le in events)
+                {
+					Assert.NotNull(le);
+					Assert.AreEqual(@"""Hola!""" + Environment.NewLine, le /*, "log line has no members - just plain message"*/);
+				}
 			});
 
 

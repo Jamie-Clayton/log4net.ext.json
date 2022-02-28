@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert = NUnit.Framework.Assert;
-using StringAssert = NUnit.Framework.StringAssert;
+using NUnit.Framework;
 using log4net.Core;
 using System.Collections;
 
@@ -44,10 +42,11 @@ namespace log4net.Ext.Json.Xunit.Log
             var le = events.Single();
 
             Assert.IsNotNull(le, "loggingevent");
-
-            StringAssert.Contains(@"""A"":1", le, "le has structured message");
-            StringAssert.Contains(@"""X"":""2014-01-01", le, "le has structured message");
-
+            Assert.Multiple(() =>
+            {
+                StringAssert.Contains(@"""A"":1", le, "le has structured message");
+                StringAssert.Contains(@"""X"":""2014-01-01", le, "le has structured message");
+            });
         }
     }
 }
