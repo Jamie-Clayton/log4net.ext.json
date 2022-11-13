@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-msbuild /r /t:build,Test /p:Configuration=Release log4net.Ext.Json.Xunit
+dotnet test -c Release

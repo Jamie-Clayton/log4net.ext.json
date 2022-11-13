@@ -1,4 +1,5 @@
 #!/bin/sh
 set -e
 
-msbuild /r /t:build,pack /p:Configuration=Release "/p:VersionSuffix=$1"
+dotnet build -c Release
+dotnet pack -c Release --version-suffix "$1"
