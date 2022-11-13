@@ -4,6 +4,9 @@
     <TargetFrameworks>net481;net7;net6;netcoreapp31</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>net7;net6;netcoreapp31</TargetFrameworks>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.12" />
