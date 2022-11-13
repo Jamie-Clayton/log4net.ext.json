@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Xunit;
-using Assert = NUnit.Framework.Assert;
-using StringAssert = NUnit.Framework.StringAssert;
+using NUnit.Framework;
 
 namespace log4net.Ext.Json.Xunit.ObjectRenderer
 {
@@ -20,26 +18,40 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 			_serializerJsonDotNet = new log4net.ObjectRenderer.JsonDotNetRenderer();
 		}
 
-		[Theory]
-		[InlineData(true, "true", "true")]
-		[InlineData(false, "false", "false")]
-		[InlineData(0, "0", "0")]
-		[InlineData(0L, "0", "0")]
-		[InlineData(0D, "0", "0")]
-		[InlineData(int.MinValue, "-2147483648", "-2147483648")]
-		[InlineData(int.MaxValue, "2147483647", "2147483647")]
-		[InlineData(double.MinValue, "-1.7976931348623157E+308", "-1.7976931348623157E+308")]
-		[InlineData(double.MaxValue, "1.7976931348623157E+308", "1.7976931348623157E+308")]
+		public static TestCaseData[] testCases =
+		{
+			new TestCaseData(true, "true", "true"){TestName="SerializeBoolTrue"},
+			new TestCaseData(false, "false", "false"){TestName="SerializeBoolFalse"},
+			new TestCaseData(0, "0", "0"){TestName="SerializeInt"},
+			new TestCaseData(0L, "0", "0"){TestName="SerializeLong"},
+			new TestCaseData(0D, "0", "0"){TestName="SerializeDouble"},
+			new TestCaseData(int.MinValue, "-2147483648", "-2147483648"){TestName="SerializeIntMin"},
+			new TestCaseData(int.MaxValue, "2147483647", "2147483647"){TestName="SerializeIntMax"},
+#if NET481
+			new TestCaseData(double.MinValue, "-1.7976931348623157E+308", "-1.7976931348623157E+308"){TestName="SerializeDoubleMin"},
+			new TestCaseData(double.MaxValue, "1.7976931348623157E+308", "1.7976931348623157E+308"){TestName="SerializeDoubleMax"},
+			new TestCaseData(new double? (double.MinValue), "-1.7976931348623157E+308", "-1.7976931348623157E+308"){TestName="SerializeNullableDouble"},
+#else
+			new TestCaseData(double.MinValue, "-1.7976931348623157E+308", "-1.7976931348623157e+308"){TestName="SerializeDoubleMin"},
+			new TestCaseData(double.MaxValue, "1.7976931348623157E+308", "1.7976931348623157e+308"){TestName="SerializeDoubleMax"},
+			new TestCaseData(new double? (double.MinValue), "-1.7976931348623157E+308", "-1.7976931348623157e+308"){TestName="SerializeNullableDouble"},
+#endif
+			new TestCaseData('*', @"""*""", @"""*"""){TestName="SerializeChar"},
+			new TestCaseData((byte)168, @"168", @"""\uFFFD"""){TestName="SerializeByte"},
 
-		[InlineData('*', @"""*""", @"""*""")]
-		[InlineData((byte)168, @"168", @"""\uFFFD""")]
+			new TestCaseData("xxx &;", @"""xxx &;""", @"""xxx &;"""),
+			new TestCaseData("ěščřžýáíé■", // JsonDotNet leaves unicode chars as is, homemade escapes them producing ASCII
+				@"""ěščřžýáíé■""",
+				@"""\u011B\u0161\u010D\u0159\u017E\u00FD\u00E1\u00ED\u00E9\u25A0"""),
+			new TestCaseData("\"\\\b\f\n\r\t", @"""\""\\\b\f\n\r\t""", @"""\""\\\b\f\n\r\t"""),
+			new TestCaseData("</>", @"""</>""", @"""</>"""),
+			new TestCaseData(new int?(), "null", "null"){TestName="SerializeNullableNull"},
+			new TestCaseData(new int? (int.MinValue), "-2147483648", "-2147483648"){TestName="SerializeNullableInt"},
+			new TestCaseData(DBNull.Value, "null", "null"){TestName="SerializeDBNull"},
+			new TestCaseData(decimal.MinValue, @"-79228162514264337593543950335", @"-79228162514264337593543950335"){TestName="SerializeDecimal"}
+		};
 
-		[InlineData("xxx &;", @"""xxx &;""", @"""xxx &;""")]
-		[InlineData("ěščřžýáíé■", // JsonDotNet leaves unicode chars as is, homemade escapes them producing ASCII
-			@"""ěščřžýáíé■""",
-			@"""\u011B\u0161\u010D\u0159\u017E\u00FD\u00E1\u00ED\u00E9\u25A0""")]
-		[InlineData("\"\\\b\f\n\r\t", @"""\""\\\b\f\n\r\t""", @"""\""\\\b\f\n\r\t""")]
-		[InlineData("</>", @"""</>""", @"""</>""")]
+		[TestCaseSource(nameof(testCases))]
 		public void Serialize(object value, string expectedJsonDotNet, string expectedHomeMade)
 		{
 			var wrJsonDotNet = new StringWriter();
@@ -53,37 +65,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 			StringAssert.StartsWith(expectedHomeMade, resultHomeMade, String.Format("HomeMade serialized {0}", value));
 		}
 
-		[Fact]
-		public void SerializeNullableNull()
-		{
-			Serialize(new int?(), "null", "null");
-		}
-
-		[Fact]
-		public void SerializeNullableInt()
-		{
-			Serialize(new int?(int.MinValue), "-2147483648", "-2147483648");
-		}
-
-		[Fact]
-		public void SerializeNullableDouble()
-		{
-			Serialize(new double?(double.MinValue), "-1.7976931348623157E+308", "-1.7976931348623157E+308");
-		}
-
-		[Fact]
-		public void SerializeDBNull()
-		{
-			Serialize(DBNull.Value, "null", "null");
-		}
-
-		[Fact]
-		public void SerializeDecimal()
-		{
-			Serialize(decimal.MinValue, @"-79228162514264337593543950335", @"-79228162514264337593543950335");
-		}
-
-		[Fact]
+		[Test]
 		public void SerializeEnumFlags()
 		{
 			// JsonDotNet works enums into numbers, homemade into names
@@ -92,7 +74,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 				@"""Multiline, Compiled""");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeEnumSingle()
 		{
 			// JsonDotNet works enums into numbers, homemade into names
@@ -101,13 +83,13 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 				@"""Compiled""");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeGuid()
 		{
 			Serialize(Guid.Empty, @"""00000000-0000-0000-0000-000000000000""", @"""00000000-0000-0000-0000-000000000000""");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeUri()
 		{
 			Serialize(new Uri("irc://xxx/yyy"), @"""irc://xxx/yyy""", @"""irc://xxx/yyy""");
@@ -116,7 +98,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 		/// <summary>
 		/// We differ here on purpose?
 		/// </summary>
-		[Fact]
+		[Test]
 		public void SerializeBytes()
 		{
 			Serialize(new byte[] { 65, 255, 0, 128 }, @"""Qf8AgA==""", @"""A\uFFFD\u0000\uFFFD""");
@@ -125,7 +107,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 		/// <summary>
 		/// We differ here on purpose?
 		/// </summary>
-		[Fact]
+		[Test]
 		public void SerializeChars()
 		{
 			Serialize(new char[] { 'A', '¿', char.MinValue, '├' }, @"[""A"",""¿"",""\u0000"",""├""]", @"""A\u00BF\u0000\u251C""");
@@ -134,7 +116,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 		/// <summary>
 		/// We differ here on purpose with ISO standard date? Greater precision and better support.
 		/// </summary>
-		[Fact]
+		[Test]
 		public void SerializeDateTime()
 		{
 			Serialize(DateTime.Parse("2014-01-01 00:00:01"), @"""2014-01-01T00:00:01""", @"""2014-01-01T00:00:01.0000000""");
@@ -143,7 +125,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 		/// <summary>
 		/// We differ here on purpose?
 		/// </summary>
-		[Fact]
+		[Test]
 		public void SerializeTimeSpan()
 		{
 			// JsonDotNet handles TimeSpan as any object serializing it's fields and props, homemeade ony does seconds
@@ -152,25 +134,25 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
 				@"259201.12345");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeObject()
 		{
 			Serialize(new object(), @"{}", @"{}");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeCustomPrivateObject()
 		{
 			Serialize(new CustomPrivateObject(), @"{""X"":""Y""}", @"{""X"":""Y""}");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeCustomPublicObject()
 		{
 			Serialize(new CustomPublicObject(), @"{""X"":""Y""}", @"{""X"":""Y""}");
 		}
 
-		[Fact]
+		[Test]
 		public void SerializeAnonymous()
 		{
 			Serialize(new { PROP = 1 }, @"{""PROP"":1}", @"{""PROP"":1}");

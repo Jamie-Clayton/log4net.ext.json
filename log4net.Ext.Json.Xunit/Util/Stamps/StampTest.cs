@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
-using Assert = NUnit.Framework.Assert;
-using Is = NUnit.Framework.Is;
+using NUnit.Framework;
 using log4net.Core;
 using System.Diagnostics;
 
@@ -20,7 +18,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             return le;
         }
 
-        [Fact]
+        [Test]
         public void RegularStamp()
         {
             var le = CreateLoggingEvent();
@@ -34,7 +32,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             Assert.AreNotEqual(le.Properties["stamp"], le.Properties["stamp2"], @"stamp!=stamp2");
         }
 
-        [Fact]
+        [Test]
         public void TimeStamp()
         {
             var le = CreateLoggingEvent();
@@ -48,7 +46,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             Assert.Greater((double)le.Properties["stamp2"], (double)le.Properties["stamp"], @"stamp2 > stamp");
         }
 
-        [Fact]
+        [Test]
         public void TimeStampRound()
         {
             var le = CreateLoggingEvent();
@@ -59,7 +57,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             Assert.IsTrue(long.TryParse(value, out time), "{0} must be a long when Round=true", value);
         }
 
-        [Fact]
+        [Test]
         public void SequenceStamp()
         {
             var le = CreateLoggingEvent();
@@ -73,7 +71,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             Assert.Greater((long)le.Properties["stamp2"], (long)le.Properties["stamp"], @"stamp2 > stamp");
         }
 
-        [Fact]
+        [Test]
         public void ProcessIdStamp()
         {
             var le = CreateLoggingEvent();
@@ -88,7 +86,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             Assert.AreEqual((int)le.Properties["stamp"], Process.GetCurrentProcess().Id, @"Process ID");
         }
 
-        [Fact]
+        [Test]
         public void ValueStamp()
         {
             var le = CreateLoggingEvent();

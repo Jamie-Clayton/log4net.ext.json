@@ -3,13 +3,13 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using log4net.Util;
-using Xunit;
+using NUnit.Framework;
 
 namespace log4net.Ext.Json.Xunit.Util
 {
     public class TextWriterExtTest
     {
-        [Fact]
+        [Test]
         public void WriteFormatDoubleInSpecificCulture()
         {
             // setting up not English culture globally
@@ -20,7 +20,7 @@ namespace log4net.Ext.Json.Xunit.Util
             double d = 1.25d;
             tw.WriteFormat("{0:r}", d);
             
-            Assert.Equal("1.25", tw.ToString());
+            Assert.AreEqual("1.25", tw.ToString());
         }
     }
 }
