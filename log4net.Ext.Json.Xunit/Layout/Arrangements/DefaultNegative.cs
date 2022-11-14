@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using Is=NUnit.Framework.Is;
+using NUnit.Framework;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -34,7 +32,7 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
+        protected override void RunTestLog(log4net.ILog log)
         {
             log.Info("Hola!");
 
@@ -46,7 +44,7 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 
             Assert.IsNotNull(le, "loggingevent");
 
-			Assert.AreEqual(@"{""message"":""Hola!""}" + Environment.NewLine, le, "log line has no members");
+            Assert.AreEqual(@"{""message"":""Hola!""}" + Environment.NewLine, le, "log line has no members");
         }
     }
 }

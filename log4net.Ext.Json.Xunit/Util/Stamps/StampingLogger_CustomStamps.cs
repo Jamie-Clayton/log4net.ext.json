@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
+using NUnit.Framework;
 using log4net.Ext.Json.Xunit.General;
 
 namespace log4net.Ext.Json.Xunit.Util.Stamps
