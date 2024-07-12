@@ -41,12 +41,12 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
             var wrJsonDotNet = new StringWriter();
             _serializerJsonDotNet.RenderObject(null, value, wrJsonDotNet);
             var resultJsonDotNet = wrJsonDotNet.ToString();
-            resultJsonDotNet.Should().StartWith(expectedJsonDotNet, because: $"JsonDotNet serialized {value}");
+            resultJsonDotNet.Should().Be(expectedJsonDotNet, because: $"JsonDotNet serialized {value}");
 
             var wrHomeMade = new StringWriter();
             _serializerHomeMade.RenderObject(null, value, wrHomeMade);
             var resultHomeMade = wrHomeMade.ToString();
-            resultHomeMade.Should().StartWith(expectedHomeMade, because: $"HomeMade serialized {value}");
+            resultHomeMade.Should().Be(expectedHomeMade, because: $"HomeMade serialized {value}");
 
         }
 
