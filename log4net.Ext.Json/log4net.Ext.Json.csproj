@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>log4net</RootNamespace>
     <AssemblyName>log4net.Ext.Json</AssemblyName>
-    <TargetFrameworks>net452;net40;net35;net20;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
     <PackageId>log4net.Ext.Json</PackageId>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Robert Cutajar, Grzegorz Dziadkiewicz</Authors>
@@ -32,7 +32,7 @@
     <DefineConstants>$(DefineConstants);NoAppDomain</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.10" />
+    <PackageReference Include="log4net" Version="2.0.17" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net35' OR '$(TargetFramework)'=='net20'">
     <Reference Include="System.Core" />
@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\icon.png" Pack="true" PackagePath="" />
