@@ -24,12 +24,8 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
         [InlineData(0D, "0", "0")]
         [InlineData(int.MinValue, "-2147483648", "-2147483648")]
         [InlineData(int.MaxValue, "2147483647", "2147483647")]
-        [InlineData(double.MinValue, "-1.7976931348623157E+308", "-1.7976931348623157E+308")]
-        [InlineData(double.MaxValue, "1.7976931348623157E+308", "1.7976931348623157E+308")]
-
         [InlineData('*', @"""*""", @"""*""")]
         [InlineData((byte)168, @"168", @"""\uFFFD""")]
-
         [InlineData("xxx &;", @"""xxx &;""", @"""xxx &;""")]
         [InlineData("ěščřžýáíé■", // JsonDotNet leaves unicode chars as is, homemade escapes them producing ASCII
             @"""ěščřžýáíé■""",
@@ -63,9 +59,37 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
         }
 
         [Fact]
-        public void SerializeNullableDouble()
+        public void SerializeNullableDoubleMin()
         {
-			Serialize(new double?(double.MinValue), "-1.7976931348623157E+308", "-1.7976931348623157E+308");
+
+#if NETCOREAPP3_0_OR_GREATER
+            {
+                // IEEE 754-2008 compliance changes from Core v3.0 onwards.
+                // See: https://devblogs.microsoft.com/dotnet/floating-point-parsing-and-formatting-improvements-in-net-core-3-0/
+                Serialize(new double?(double.MinValue), "-1.7976931348623157E+308", "-1.7976931348623157e+308");
+            }
+#else
+            {
+            Serialize(new double?(double.MaxValue), "1.7976931348623157E+308", "1.7976931348623157E+308");
+            }
+#endif
+        }
+
+        [Fact]
+        public void SerializeNullableDoubleMax()
+        {
+
+#if NETCOREAPP3_0_OR_GREATER
+            {
+                // IEEE 754-2008 compliance changes from Core v3.0 onwards.
+                // See: https://devblogs.microsoft.com/dotnet/floating-point-parsing-and-formatting-improvements-in-net-core-3-0/
+                Serialize(new double?(double.MaxValue), "1.7976931348623157E+308", "1.7976931348623157e+308");
+            }
+#else
+        {
+            Serialize(new double?(double.MaxValue), "1.7976931348623157E+308", "1.7976931348623157E+308");
+            }
+#endif
         }
 
         [Fact]
