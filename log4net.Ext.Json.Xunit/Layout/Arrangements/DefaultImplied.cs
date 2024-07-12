@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
-using Is=NUnit.Framework.Is;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -27,22 +21,20 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
+        protected override void RunTestLog(log4net.ILog log)
         {
             log.Info(4);
 
             var events = GetEventStrings(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
-
+            events.Length.Should().Be(1, because: "events Count");
+            events.Should().NotContainNulls(because: "events Not Null");
+            events.Should().HaveCount(1, because: "events Not Empty");
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-            StringAssert.Contains(@"""date"":", le, "log line has date");
-            StringAssert.Contains(@"""message"":", le, "log line has message");
-            StringAssert.Contains(@"""logger"":", le, "log line has logger");
-            StringAssert.Contains(@"""level"":", le, "log line has level");
+            le.Should().NotBeNullOrEmpty(because: "loggingevent");
+            le.Should().Contain(@"""date"":", because: "log line has date");
+            le.Should().Contain(@"""message"":", because: "log line has message");
+            le.Should().Contain(@"""logger"":", because: "log line has logger");
+            le.Should().Contain(@"""level"":", because: "log line has level");
         }
     }
 }

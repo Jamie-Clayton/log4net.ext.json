@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -32,17 +27,15 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
             log.Info(4);
 
             var events = GetEventStrings(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Should().NotBeNullOrEmpty();
+            events.Should().HaveCount(1);
 
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-            StringAssert.Contains(@"""EventTime"":", le, "log line has EventTime");
-            StringAssert.Contains(@"""Message"":", le, "log line has Message");
-            StringAssert.Contains(@"""Logger"":", le, "log line has Logger");
-            StringAssert.Contains(@"""Severity"":", le, "log line has Severity");
+            le.Should().NotBeNullOrEmpty(because: "loggingevent");
+            le.Should().Contain(@"""EventTime"":", because: "log line has EventTime");
+            le.Should().Contain(@"""Message"":", because: "log line has Message");
+            le.Should().Contain(@"""Logger"":", because: "log line has Logger");
+            le.Should().Contain(@"""Severity"":", because: "log line has Severity");
         }
     }
 }

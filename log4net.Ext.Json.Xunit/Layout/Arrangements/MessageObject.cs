@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using Is=NUnit.Framework.Is;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -32,14 +28,11 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
             log.Info(4);
 
             var events = GetEventStrings(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-			Assert.AreEqual(@"{""MessageObject"":4}" + Environment.NewLine, le, "log line");
+            le.Should().NotBeNull(because: "loggingevent");
+			le.Should().Be(@"{""MessageObject"":4}" + Environment.NewLine, because: "log line");
         }
     }
 }

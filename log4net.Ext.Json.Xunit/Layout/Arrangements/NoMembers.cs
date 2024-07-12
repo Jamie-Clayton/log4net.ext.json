@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using FluentAssertions;
 using log4net.Ext.Json.Xunit.General;
 using Xunit;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
-	public class NoMembers : RepoTest
-	{
-		protected override string GetConfig()
-		{
-			return @"<log4net>
+    public class NoMembers : RepoTest
+    {
+        protected override string GetConfig()
+        {
+            return @"<log4net>
                         <root>
                           <level value='DEBUG'/>
                           <appender-ref ref='TestAppender'/>
@@ -23,23 +21,22 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                           </layout>
                         </appender>
                       </log4net>";
-		}
+        }
 
-		protected override void RunTestLog(log4net.ILog log)
-		{
-			log.Info("Hola!");
+        protected override void RunTestLog(log4net.ILog log)
+        {
+            log.Info("Hola!");
 
-			var events = GetEventStrings(log.Logger);
+            var events = GetEventStrings(log.Logger);
 
-			Assert.Collection(events, (le) =>
-			{
-				Assert.NotNull(le);
+            Assert.Collection(events, (le) =>
+            {
+                le.Should().NotBeNull(because: "loggingevent");
+                le.Should().Be(@"""Hola!""" + Environment.NewLine, "log line has no members - just plain message");
+            });
 
-				Assert.Equal(@"""Hola!""" + Environment.NewLine, le /*, "log line has no members - just plain message"*/);
-			});
 
-
-		}
-	}
+        }
+    }
 }
 
