@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
-using log4net.Core;
-using System.Collections;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Log
 {
@@ -53,32 +47,26 @@ namespace log4net.Ext.Json.Xunit.Log
 
             var events = GetEventStrings(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
 
-            Assert.IsNotNull(le, "loggingevent");
-
-            StringAssert.Contains(@"""data.A"":1", le, "le2 has structured message");
-            StringAssert.Contains(@"""data.B.X"":""Y""", le, "le2 has structured message");
-
-            StringAssert.Contains(@"""TestLog sub section""", le, "le1 has structured message");
-
-            StringAssert.Contains(@"""exception"":""System.InvalidProgramException: test", le, "le2 has structured message");
-
+            le.Should().NotBeNull(because: "loggingevent");
+            le.Should().Contain(@"""data.A"":1", "le2 has structured message");
+            le.Should().Contain(@"""data.B.X"":""Y""", "le2 has structured message");
+            le.Should().Contain(@"""TestLog sub section""", "le1 has structured message");
+            le.Should().Contain(@"""exception"":""System.InvalidProgramException: test", "le2 has structured message");
+            
             // curiously, the properties set within the NDC are still here... not my fault.
 
             log.Info(null);
 
             events = GetEventStrings(log.Logger);
-
-            Assert.AreEqual(2, events.Length, "events Count");
+            events.Length.Should().Be(2, "events Count");
 
             le = events.Last();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-			Assert.AreEqual(@"{""data.A"":1,""data.B.X"":""Y""}" + Environment.NewLine, le, "le2 has structured message");
+            le.Should().NotBeNull(because: "loggingevent");
+            le.Should().Be(@"{""data.A"":1,""data.B.X"":""Y""}" + Environment.NewLine, because: "le2 has structured message");
 
         }
     }

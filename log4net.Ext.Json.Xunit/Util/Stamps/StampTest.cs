@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
-using Assert = NUnit.Framework.Assert;
-using Is = NUnit.Framework.Is;
+using FluentAssertions;
 using log4net.Core;
 using System.Diagnostics;
 
@@ -29,9 +25,9 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             stamp.StampEvent(le);
             stamp2.StampEvent(le);
 
-            Assert.That(le.Properties["stamp"], Is.Not.Null, @"Properties[""stamp""]");
-            Assert.That(le.Properties["stamp2"], Is.Not.Null, @"Properties[""stamp2""]");
-            Assert.AreNotEqual(le.Properties["stamp"], le.Properties["stamp2"], @"stamp!=stamp2");
+            le.Properties["stamp"].Should().NotBeNull(@"Properties[""stamp""]");
+            le.Properties["stamp2"].Should().NotBeNull(@"Properties[""stamp2""]");
+            le.Properties["stamp"].Should().NotBe(le.Properties["stamp2"], @"stamp!=stamp2");
         }
 
         [Fact]
@@ -42,10 +38,9 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             var stamp2 = new log4net.Util.Stamps.TimeStamp() { Name = "stamp2" };
             stamp.StampEvent(le);
             stamp2.StampEvent(le);
-
-            Assert.That(le.Properties["stamp"], Is.Not.Null, @"Properties[""stamp""]");
-            Assert.That(le.Properties["stamp2"], Is.Not.Null, @"Properties[""stamp2""]");
-            Assert.Greater((double)le.Properties["stamp2"], (double)le.Properties["stamp"], @"stamp2 > stamp");
+            le.Properties["stamp"].Should().NotBeNull(@"Properties[""stamp""]");
+            le.Properties["stamp2"].Should().NotBeNull(@"Properties[""stamp2""]");
+            ((double)le.Properties["stamp2"]).Should().BeGreaterThan((double)le.Properties["stamp"], because: "stamp2 > stamp");
         }
 
         [Fact]
@@ -56,7 +51,7 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             stamp.StampEvent(le);
             var value = Convert.ToString(le.Properties["stamp"]);
             var time = 0L;
-            Assert.IsTrue(long.TryParse(value, out time), "{0} must be a long when Round=true", value);
+            long.TryParse(value, out time).Should().BeTrue("{0} must be a long when Round=true", value);
         }
 
         [Fact]
@@ -68,9 +63,9 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             stamp.StampEvent(le);
             stamp2.StampEvent(le);
 
-            Assert.That(le.Properties["stamp"], Is.Not.Null, @"Properties[""stamp""]");
-            Assert.That(le.Properties["stamp2"], Is.Not.Null, @"Properties[""stamp2""]");
-            Assert.Greater((long)le.Properties["stamp2"], (long)le.Properties["stamp"], @"stamp2 > stamp");
+            le.Properties["stamp"].Should().NotBeNull(@"Properties[""stamp""]");
+            le.Properties["stamp2"].Should().NotBeNull(@"Properties[""stamp2""]");
+            ((long)le.Properties["stamp2"]).Should().BeGreaterThan((long)le.Properties["stamp"], because: "stamp2 > stamp");
         }
 
         [Fact]
@@ -82,10 +77,10 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             stamp.StampEvent(le);
             stamp2.StampEvent(le);
 
-            Assert.That(le.Properties["stamp"], Is.Not.Null, @"Properties[""stamp""]");
-            Assert.That(le.Properties["stamp2"], Is.Not.Null, @"Properties[""stamp2""]");
-            Assert.AreEqual((int)le.Properties["stamp2"], (int)le.Properties["stamp"], @"stamp2 == stamp");
-            Assert.AreEqual((int)le.Properties["stamp"], Process.GetCurrentProcess().Id, @"Process ID");
+            le.Properties["stamp"].Should().NotBeNull(@"Properties[""stamp""]");
+            le.Properties["stamp2"].Should().NotBeNull(@"Properties[""stamp2""]");
+            ((int)le.Properties["stamp2"]).Should().Be((int)le.Properties["stamp"], because: "stamp2 == stamp");
+            ((int)le.Properties["stamp"]).Should().Be(Process.GetCurrentProcess().Id, because: "stamp2 == stamp");
         }
 
         [Fact]
@@ -97,10 +92,10 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             stamp.StampEvent(le);
             stamp2.StampEvent(le);
 
-            Assert.That(le.Properties["stamp"], Is.Not.Null, @"Properties[""stamp""]");
-            Assert.That(le.Properties["stamp2"], Is.Not.Null, @"Properties[""stamp2""]");
-            Assert.AreEqual((string)le.Properties["stamp"], "A", @"stamp A");
-            Assert.AreEqual((string)le.Properties["stamp2"], "B", @"stamp2 B");
+            le.Properties["stamp"].Should().NotBeNull(@"Properties[""stamp""]");
+            le.Properties["stamp2"].Should().NotBeNull(@"Properties[""stamp2""]");
+            le.Properties["stamp"].Should().Be("A", @"stamp A");
+            le.Properties["stamp2"].Should().Be("B", @"stamp2 B");
         }
     }
 }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
-using log4net.Core;
-using System.Collections;
+using FluentAssertions;
 using log4net.Layout;
 using log4net.Layout.Pattern;
 using log4net.ObjectRenderer;
@@ -35,33 +28,31 @@ namespace log4net.Ext.Json.Xunit.Log
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
-        {   
+        protected override void RunTestLog(log4net.ILog log)
+        {
             var appenders = GetAppenders<TestAppender>(log.Logger);
-
-            Assert.AreEqual(1, appenders.Length, "appenders Count");
+            appenders.Length.Should().Be(1, "appenders Count");
 
             var tapp = appenders.Single();
 
-            Assert.IsInstanceOf<SerializedLayout>(tapp.Layout, "layout type");
+            tapp.Layout.Should().BeAssignableTo<SerializedLayout>("layout type");
             var layout = ((SerializedLayout)tapp.Layout);
-            Assert.IsInstanceOf<JsonPatternConverter>(layout.SerializingConverter, "converter type");
+            layout.SerializingConverter.Should().BeAssignableTo<JsonPatternConverter>("converter type");
             var converter = ((JsonPatternConverter)layout.SerializingConverter);
-            Assert.IsInstanceOf<JsonDotNetRenderer>(converter.Renderer, "renderer type");
+            converter.Renderer.Should().BeAssignableTo<JsonDotNetRenderer>("renderer type");
             var renderer = ((JsonDotNetRenderer)converter.Renderer);
 
             log.Info(new { A = 1, B = new { X = "Y" } });
 
             var events = GetEventStrings(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
 
-            Assert.IsNotNull(le, "loggingevent");
+            le.Should().NotBeNull(because: "loggingevent");
 
-            StringAssert.Contains(@"{""message"":{""A"":1,""B"":{""X"":""Y""}}}", le, "le has structured message");
-
+            le.Should().Contain(@"{""message"":{""A"":1,""B"":{""X"":""Y""}}}", because: "le has structured message");
 
         }
     }
