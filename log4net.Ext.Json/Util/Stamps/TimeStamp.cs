@@ -17,10 +17,6 @@
 //
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Globalization;
-
 namespace log4net.Util.Stamps
 {
     /// <summary>

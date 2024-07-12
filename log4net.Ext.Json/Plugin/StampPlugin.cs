@@ -18,13 +18,7 @@
 #endregion
 
 using System;
-using log4net.Appender;
-using log4net.Layout;
-using log4net.Layout.Pattern;
-using log4net.ObjectRenderer;
 using log4net.Repository;
-using log4net.Util;
-using log4net.Util.TypeConverters;
 using log4net.Repository.Hierarchy;
 using log4net.Util.Stamps;
 

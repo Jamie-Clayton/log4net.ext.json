@@ -20,7 +20,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using log4net.Core;
 using log4net.Ext.Json.Util.Env;
 using log4net.Util;

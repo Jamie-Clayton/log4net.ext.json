@@ -20,7 +20,6 @@
 using System;
 using System.Collections;
 using System.Text;
-using log4net.ObjectRenderer;
 using System.Collections.Generic;
 using System.Reflection;
 using log4net.Util;

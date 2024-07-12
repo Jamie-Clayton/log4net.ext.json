@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace log4net.Layout.Decorators
+﻿namespace log4net.Layout.Decorators
 {
     /// <summary>
     /// Decorator modifies logged objects

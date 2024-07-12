@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using log4net.Util;
 
 namespace log4net.Ext.Json.Util.Env
 {
