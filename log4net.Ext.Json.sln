@@ -1,13 +1,24 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Ext.Json", "log4net.Ext.Json\log4net.Ext.Json.csproj", "{8134BEDF-346C-483B-89FE-479667F81B92}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "log4net.Ext.Json", "log4net.Ext.Json\log4net.Ext.Json.csproj", "{8134BEDF-346C-483B-89FE-479667F81B92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Ext.Json.Net", "log4net.Ext.Json.Net\log4net.Ext.Json.Net.csproj", "{AAAAAAAA-3BB9-477A-8464-8245040851CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "log4net.Ext.Json.Net", "log4net.Ext.Json.Net\log4net.Ext.Json.Net.csproj", "{AAAAAAAA-3BB9-477A-8464-8245040851CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Ext.Json.Xunit", "log4net.Ext.Json.Xunit\log4net.Ext.Json.Xunit.csproj", "{CF8B425E-3BB9-477A-8464-8245040851CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "log4net.Ext.Json.Xunit", "log4net.Ext.Json.Xunit\log4net.Ext.Json.Xunit.csproj", "{CF8B425E-3BB9-477A-8464-8245040851CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "play", "play\play.csproj", "{2B0D4E0E-661E-4B98-8418-68538D1FDBFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "play", "play\play.csproj", "{2B0D4E0E-661E-4B98-8418-68538D1FDBFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7098B41A-33D9-4392-B8B3-825669C18F4E}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		publish.sh = publish.sh
+		Readme.md = Readme.md
+		release.sh = release.sh
+		unittest.sh = unittest.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +42,11 @@ Global
 		{2B0D4E0E-661E-4B98-8418-68538D1FDBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B0D4E0E-661E-4B98-8418-68538D1FDBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B0D4E0E-661E-4B98-8418-68538D1FDBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8951A40-F69F-4AE3-B865-26BFA0F66E98}
 	EndGlobalSection
 EndGlobal
