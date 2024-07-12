@@ -78,11 +78,7 @@ namespace log4net.Ext.Json.Util.Env
             public static string Value { get; }
             static AppNameAccess()
             {
-#if (NoAppDomain)
-                Value = null;
-#else
                 Value = AppDomain.CurrentDomain.FriendlyName;
-#endif
             }
         }
         private static class AppDirAccess
