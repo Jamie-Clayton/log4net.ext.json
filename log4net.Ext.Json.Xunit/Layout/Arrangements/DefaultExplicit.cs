@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FluentAssertions;
 using log4net.Ext.Json.Xunit.General;
 using Xunit;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
-	public class DefaultExplicit : RepoTest
+    public class DefaultExplicit : RepoTest
 	{
 		protected override string GetConfig()
 		{
@@ -34,11 +31,11 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 			Assert.Collection(events, (le) =>
 			{
 				Assert.NotNull(le);
-				Assert.Contains(@"""date"":", le);
-				Assert.Contains(@"""message"":", le);
-				Assert.Contains(@"""logger"":", le);
-				Assert.Contains(@"""level"":", le);
-			});
+                le.Should().Contain(@"""date"":", because: "log line had date");
+                le.Should().Contain(@"""message"":", because: "log line has message");
+                le.Should().Contain(@"""logger"":", because: "log line has logger");
+                le.Should().Contain(@"""level"":", because: "log line has level");
+            });
 		}
 	}
 }

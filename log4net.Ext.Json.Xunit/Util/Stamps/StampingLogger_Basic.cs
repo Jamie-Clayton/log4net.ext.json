@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
+﻿using System.Linq;
+using FluentAssertions;
 using log4net.Ext.Json.Xunit.General;
 
 namespace log4net.Ext.Json.Xunit.Util.Stamps
@@ -27,16 +23,13 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
             log.Info("Hola!");
 
             var events = GetEvents(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
 
-            Assert.IsNotNull(le, "loggingevent");
-
-            Assert.IsNotEmpty(le.Properties, "loggingevent Properties");
-
-            Assert.IsNotNull(le.Properties["stamp"], "loggingevent Properties has stamp");
+            le.Should().NotBeNull(because: "loggingevent");
+            le.Properties.Should().NotBeNull(because: "loggingevent Properties");
+            le.Properties["stamp"].Should().NotBeNull(because: "loggingevent Properties has stamp");
         }
     }
 }

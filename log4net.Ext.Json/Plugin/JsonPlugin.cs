@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Reflection;
 using log4net.Appender;
 using log4net.Layout;
 using log4net.Layout.Pattern;

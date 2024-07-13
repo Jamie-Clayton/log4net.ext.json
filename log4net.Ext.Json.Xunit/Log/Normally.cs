@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using StringAssert=NUnit.Framework.StringAssert;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Log
 {
@@ -32,13 +27,13 @@ namespace log4net.Ext.Json.Xunit.Log
 
             var events = GetEventStrings(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
 
-            Assert.IsNotNull(le, "loggingevent");
+            le.Should().NotBeNull(because: "loggingevent");
 
-            StringAssert.Contains(@"""message"":""{ A = 1, B = { X = Y } }""", le, "le has structured message");
+            le.Should().Contain(@"""message"":""{ A = 1, B = { X = Y } }""", because: "le has structured message");
         }
     }
 }

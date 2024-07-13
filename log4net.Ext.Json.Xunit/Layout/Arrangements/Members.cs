@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
 using Xunit.Abstractions;
-using Assert = NUnit.Framework.Assert;
-using StringAssert = NUnit.Framework.StringAssert;
-using Is = NUnit.Framework.Is;
+using FluentAssertions;
 using System.Diagnostics;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
@@ -51,11 +46,10 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 
             var events = GetEventStrings(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
+            le.Should().NotBeNull(because: "loggingevent");
 
             var procid = Process.GetCurrentProcess().Id;
             output.WriteLine(Environment.OSVersion.VersionString);
@@ -64,18 +58,18 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                   Environment.UserDomainName + @"\\" + Environment.UserName
                 : Environment.UserName;
 
-            StringAssert.StartsWith(@"{""OurCompany.ApplicationName"":""fubar""", le, "log line");
-            StringAssert.Contains(@",""Host"":{", le, "log line");
-            StringAssert.Contains(@"""ProcessId"":" + procid, le, "log line");
-            StringAssert.Contains(@"""HostName"":""" + Environment.MachineName + @"""", le, "log line");
-            StringAssert.Contains(@"""UserName"":""" + userName + @"""", le, "log line");
-            StringAssert.Contains(@"""A"":""L-INFO-log4net.Ext.Json.Xunit.Layout.Arrangements.Members""", le, "log line");
-            StringAssert.Contains(@"""B"":""" + DateTime.Now.Year + @"""", le, "log line");
-            StringAssert.Contains(@"""App"":""", le, "log line");
+            le.Should().StartWith(@"{""OurCompany.ApplicationName"":""fubar""", because: "log line starts with");
+            le.Should().Contain(@",""Host"":{", because: "log line contains host");
+            le.Should().Contain(@"""ProcessId"":" + procid, because: "log line contains process id");
+            le.Should().Contain(@"""HostName"":""" + Environment.MachineName + @"""", because: "log line contains host name");
+            le.Should().Contain(@"""UserName"":""" + userName + @"""", because: "log line contains user name");
+            le.Should().Contain(@"""A"":""L-INFO-log4net.Ext.Json.Xunit.Layout.Arrangements.Members""", because: "log line contains A");
+            le.Should().Contain(@"""B"":""" + DateTime.Now.Year + @"""",because: "log line contains B");
+            le.Should().Contain(@"""App"":""", because: "log line contains App");
 
             // fix #3, do not use member name as a default value
-            StringAssert.DoesNotContain("empty1", le);
-            StringAssert.DoesNotContain("empty2", le);
+            le.Should().NotContain("emty1", because: "log line does not contain empty1");
+            le.Should().NotContain("empty2", because: "log line does not contain empty2");
         }
     }
 }

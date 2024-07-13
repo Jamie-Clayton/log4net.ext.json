@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
+﻿using System.Linq;
+using FluentAssertions;
 using log4net.Ext.Json.Xunit.General;
+using Newtonsoft.Json.Serialization;
 
 namespace log4net.Ext.Json.Xunit.Util.Stamps
 {
@@ -32,19 +29,16 @@ namespace log4net.Ext.Json.Xunit.Util.Stamps
 
             var events = GetEvents(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
 
-            Assert.IsNotNull(le, "loggingevent");
+            le.Should().NotBeNull(because: "loggingevent");
 
-            Assert.IsNotEmpty(le.Properties, "loggingevent Properties");
-
-            Assert.AreEqual(1, le.Properties.Count, "loggingevent Properties count");
-
-            Assert.IsNotNull(le.Properties["stamp.value"], "loggingevent Properties has stamp");
-
-            Assert.AreEqual("CustomValue", le.Properties["stamp.value"], "loggingevent Properties has stamp.value");
+            le.Properties.Should().NotBeNull(because: "loggingevent Properties");
+            le.Properties.Count.Should().Be(1, "loggingevent Properties count");
+            le.Properties["stamp.value"].Should().NotBeNull("loggingevent Properties has stamp");
+            le.Properties["stamp.value"].Should().Be("CustomValue", "loggingevent Properties has stamp.value");            
         }
     }
 }

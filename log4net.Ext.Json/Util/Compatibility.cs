@@ -1,8 +1,6 @@
-﻿using System;
-using System.Reflection;
-namespace log4net.Util
+﻿namespace log4net.Util
 {
-	public static class Compatibility
+    public static class Compatibility
 	{
 #if (Net20Reflection)
 		public static Type GetTypeInfo(this Type t)

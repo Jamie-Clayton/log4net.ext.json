@@ -17,12 +17,8 @@
 //
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using log4net.Core;
 using log4net.Util;
-using System.Threading;
 
 namespace log4net.Appender
 {

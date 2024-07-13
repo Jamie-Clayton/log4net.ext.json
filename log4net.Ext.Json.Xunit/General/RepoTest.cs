@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
-using Assert=NUnit.Framework.Assert;
-using Is=NUnit.Framework.Is;
+using FluentAssertions;
 using System.Xml;
 using log4net.Config;
 
@@ -14,7 +12,7 @@ namespace log4net.Ext.Json.Xunit.General
     {
         protected log4net.Repository.ILoggerRepository repo;
 
-		public RepoTest()
+        public RepoTest()
         {
             var config = GetConfig();
             XmlDocument log4netConfig = new XmlDocument();
@@ -22,8 +20,8 @@ namespace log4net.Ext.Json.Xunit.General
 
             var rep = LogManager.CreateRepository(Guid.NewGuid().ToString()) as log4net.Repository.Hierarchy.Hierarchy;
             XmlConfigurator.Configure(rep, log4netConfig["log4net"]);
-            
-            if(rep.GetAppenders().Length == 0)
+
+            if (rep.GetAppenders().Length == 0)
                 rep.Root.AddAppender(new TestAppender() { Name = "TestAppender" });
 
             repo = rep;
@@ -33,9 +31,7 @@ namespace log4net.Ext.Json.Xunit.General
         public virtual void TestLog()
         {
             var log = GetLog();
-
-            Assert.IsNotNull(log);
-
+            log.Should().NotBeNull(because: "log4net.ILog");
             RunTestLog(log);
         }
 
@@ -44,14 +40,11 @@ namespace log4net.Ext.Json.Xunit.General
             log.Info("Hola!");
 
             var events = GetEvents(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-            Assert.IsEmpty(le.Properties, "loggingevent Properties");
+            le.Should().NotBeNull(because: "loggingevent");
+            le.Properties.Should().NotBeNull(because: "loggingevent Properties");
         }
 
         protected virtual log4net.ILog GetLog()
@@ -64,7 +57,7 @@ namespace log4net.Ext.Json.Xunit.General
         protected virtual log4net.Core.LoggingEvent[] GetEvents(log4net.Core.ILogger logger)
         {
             var events = GetAppenders<TestAppender>(logger)
-                            .SelectMany(ap=>ap.Events)
+                            .SelectMany(ap => ap.Events)
                             .ToArray();
             return events;
         }
@@ -87,7 +80,7 @@ namespace log4net.Ext.Json.Xunit.General
             {
                 if (c.Appenders != null)
                 {
-                        appenders.AddRange(c.Appenders.OfType<T>());                    
+                    appenders.AddRange(c.Appenders.OfType<T>());
                 }
 
                 if (!c.Additivity)

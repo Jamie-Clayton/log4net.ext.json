@@ -1,5 +1,3 @@
-using System;
-
 namespace log4net.Ext.Json.Util.Env
 {
 

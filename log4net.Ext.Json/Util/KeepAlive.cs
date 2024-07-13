@@ -21,9 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
-using log4net.Appender;
-using log4net.Core;
-using log4net.Repository;
 
 namespace log4net.Util
 {

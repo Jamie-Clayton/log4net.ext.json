@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>log4net</RootNamespace>
     <AssemblyName>log4net.Ext.Json.Net</AssemblyName>
-    <TargetFrameworks>net452;net40;net35;net20;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>net481;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
     <PackageId>log4net.Ext.Json.Net</PackageId>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Robert Cutajar, Grzegorz Dziadkiewicz</Authors>
@@ -27,7 +27,7 @@
     <ProjectReference Include="..\log4net.Ext.Json\log4net.Ext.Json.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using Is=NUnit.Framework.Is;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Layout.Arrangements
 {
@@ -34,19 +30,17 @@ namespace log4net.Ext.Json.Xunit.Layout.Arrangements
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
+        protected override void RunTestLog(log4net.ILog log)
         {
             log.Info("Hola!");
 
             var events = GetEventStrings(log.Logger);
-
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Should().NotBeNull();
+            events.Length.Should().Be(1, because: "events Count");
 
             var le = events.Single();
-
-            Assert.IsNotNull(le, "loggingevent");
-
-			Assert.AreEqual(@"{""message"":""Hola!""}" + Environment.NewLine, le, "log line has no members");
+            le.Should().NotBeNullOrEmpty();
+            le.Should().Be(@"{""message"":""Hola!""}" + Environment.NewLine, "log line has no members");
         }
     }
 }

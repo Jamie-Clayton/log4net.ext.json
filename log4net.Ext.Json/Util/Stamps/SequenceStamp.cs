@@ -17,8 +17,6 @@
 //
 #endregion
 
-using System.Threading;
-
 namespace log4net.Util.Stamps
 {
     /// <summary>

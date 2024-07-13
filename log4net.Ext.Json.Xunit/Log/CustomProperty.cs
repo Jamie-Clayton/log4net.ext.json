@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using log4net.Ext.Json.Xunit.General;
-using Xunit;
-using Assert=NUnit.Framework.Assert;
-using log4net.Core;
-using System.Collections;
+using FluentAssertions;
 
 namespace log4net.Ext.Json.Xunit.Log
 {
@@ -40,7 +35,7 @@ namespace log4net.Ext.Json.Xunit.Log
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
+        protected override void RunTestLog(log4net.ILog log)
         {
             log4net.GlobalContext.Properties["custom"] = new Custom();
             try
@@ -50,16 +45,15 @@ namespace log4net.Ext.Json.Xunit.Log
 
                 var events = GetEventStrings(log.Logger);
 
-                Assert.AreEqual(2, events.Length, "events Count");
+                events.Length.Should().Be(2, "events Count");
 
                 var le1 = events.First();
                 var le2 = events.Last();
 
-                Assert.IsNotNull(le1, "loggingevent 1");
-                Assert.IsNotNull(le2, "loggingevent 2");
-
-				Assert.AreEqual(@"{""message"":""First"",""custom"":{""Text"":""Number 0"",""Number"":1}}" + Environment.NewLine, le1, "le1 has structured message");
-				Assert.AreEqual(@"{""message"":""Second"",""custom"":{""Text"":""Number 2"",""Number"":3}}" + Environment.NewLine, le2, "le2 has structured message");
+                le1.Should().NotBeNull(because: "loggingevent 1");
+                le2.Should().NotBeNull(because: "loggingevent 2");
+                le1.Should().Be(@"{""message"":""First"",""custom"":{""Text"":""Number 0"",""Number"":1}}" + Environment.NewLine, because: "le1 has structured message");
+                le2.Should().Be(@"{""message"":""Second"",""custom"":{""Text"":""Number 2"",""Number"":3}}" + Environment.NewLine, because: "le2 has structured message");
             }
             finally
             {

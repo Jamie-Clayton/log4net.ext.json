@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using log4net.Ext.Json.Xunit.General;
-using Assert=NUnit.Framework.Assert;
+using FluentAssertions;
 using Newtonsoft.Json.Linq;
 
 namespace log4net.Ext.Json.Xunit.Log
@@ -26,16 +26,16 @@ namespace log4net.Ext.Json.Xunit.Log
                       </log4net>";
         }
 
-		protected override void RunTestLog(log4net.ILog log)
+        protected override void RunTestLog(log4net.ILog log)
         {
-            
+
             var dataKey = "data";
-            var data = new {A = 1, B = new {X = "Y"}};
+            var data = new { A = 1, B = new { X = "Y" } };
             var testStackKey = "Test";
             var testStackValue1 = "TestStack";
             var testStackValue2 = "and Inner";
             var message = "OK";
-            
+
             using (ThreadContext.Stacks[testStackKey].Push(testStackValue1))
             {
                 ThreadContext.Properties[dataKey] = data;
@@ -48,14 +48,13 @@ namespace log4net.Ext.Json.Xunit.Log
 
             var events = GetEventStrings(log.Logger);
 
-            Assert.AreEqual(1, events.Length, "events Count");
+            events.Length.Should().Be(1, "events Count");
 
             var le = JObject.Parse(events.Single());
-            
-            Assert.AreEqual(data.A, le["properties"][dataKey][nameof(data.A)].Value<long>());
-            Assert.AreEqual(data.B.X, le["properties"][dataKey][nameof(data.B)][nameof(data.B.X)].Value<String>());
-            Assert.AreEqual($"{testStackValue1} {testStackValue2}", le["properties"][testStackKey].Value<String>());
-            Assert.AreEqual(message, le["messageobject"].Value<String>());
+            le["properties"][dataKey][nameof(data.A)].Value<long>().Should().Be(data.A);
+            le["properties"][dataKey][nameof(data.B)][nameof(data.B.X)].Value<String>().Should().Be(data.B.X);
+            le["properties"][testStackKey].Value<String>().Should().Be($"{testStackValue1} {testStackValue2}");
+            le["messageobject"].Value<String>().Should().Be(message);
         }
     }
 }

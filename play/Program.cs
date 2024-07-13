@@ -1,10 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using log4net;
-using log4net.ObjectRenderer;
-using Newtonsoft.Json;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
