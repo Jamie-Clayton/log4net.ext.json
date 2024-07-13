@@ -170,7 +170,7 @@ namespace log4net.Ext.Json.Xunit.ObjectRenderer
             // JsonDotNet handles TimeSpan as any object serializing it's fields and props, homemeade ony does seconds
             Serialize(TimeSpan.Parse("3.00:00:01.1234567"),
                 @"""3.00:00:01.1234567""",
-                @"259201.12345");
+                @"259201.1234567");
         }
 
         [Fact]
